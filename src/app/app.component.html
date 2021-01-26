@@ -1,0 +1,119 @@
+<div class="container">
+  <div class="row">
+    <div class="col-6">
+      <div class="jumbotron">
+        <form
+          class="gameForm"
+          [formGroup]="form"
+          (ngSubmit)="form.valid && onSubmit()"
+        >
+          <div class="form-group">
+            <label for="Question">Question</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="Question"
+              [ngClass]="{
+                'is-invalid':
+                  form.get('Question').touched && form.get('Question').invalid
+              }"
+              placeholder="Enter Your Word"
+              required
+            />
+            <div class="invalid-feedback">
+              <div>Question is required</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="Answer">Answer</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="Answer"
+              [ngClass]="{
+                'is-invalid':
+                  form.get('Answer').touched && form.get('Answer').invalid
+              }"
+              placeholder="Enter Your Meaning"
+              required
+            />
+            <div class="invalid-feedback">
+              <div>Answer is required</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <button class="form-submit btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="col-6">
+      <form [formGroup]="userForm" class="gameForm">
+        <div class="form-group" style="margin: 0 20px 0px 20px">
+          <label for="exampleInputEmail1">Question</label>
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="change_Question"
+            [ngModelOptions]="{ standalone: true }"
+          />
+        </div>
+        <div class="form-group" style="margin: 0px 20px 10px 20px">
+          <label for="exampleInputPassword1">Answer</label>
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="change_Answer"
+            [ngModelOptions]="{ standalone: true }"
+          />
+        </div>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          (click)="change()"
+          style="margin-left: 20px"
+        >
+          Update
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="list">
+  <li *ngFor="let item of list; index as i">
+    <mat-accordion>
+      <!-- #enddocregion basic-panel -->
+      <mat-expansion-panel
+        (opened)="panelOpenState = true"
+        (closed)="panelOpenState = false"
+        class="expa"
+        [style.background]="'whitesmoke'"
+        [style.color]="'black'"
+      >
+        <mat-expansion-panel-header
+          [style.background-color]="item.correct ? 'green' : 'blue'"
+          [style.background]="item.Incorrect ? 'red' : 'blue'"
+        >
+          <mat-panel-title> {{ item.Question }}</mat-panel-title>
+          <!-- //<mat-panel-description>awddad </mat-panel-description> -->
+        </mat-expansion-panel-header>
+        <p>{{ item.Answer }}</p>
+        <div class="keys">
+          <img src="../assets/tick.png" alt="tick" (click)="Correct(item)" />
+
+          <img
+            src="../assets/cancle.png"
+            alt="cancle"
+            (click)="Incorrect(item)"
+          />
+          <img src="../assets/edit.png" alt="" (click)="update(item)" />
+          <img src="../assets/delete.png" alt="" (click)="RemoveWord(i)" />
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </li>
+</div>
